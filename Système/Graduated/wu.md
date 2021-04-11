@@ -30,6 +30,24 @@ En faisant quelques tests, il s'avère que le script lis le contenu du fichier x
 
 Notre première approche a été de trouver une injection SQL. Pour cela on remarque qu'en plaçant un `'` dans un des champs, le script plantait au niveau de la requête SQLite. On a donc essayé d'injecter certains champs, et seul le champs 'comment' n'a aucune vérification de contenu.
 
+``` xml
+<?xml version="1.0" encoding="utf-8"?>
+
+<evaluation>
+  <student>
+    <firstname>Maxime</firstname>
+    <lastname>DUPONT DE L</lastname>
+  </student>
+  <grade>20</grade>
+  <subject>Biologie</subject>
+  <teacher>
+    <firstname>Emile</firstname>
+    <lastname>LOUIS</lastname>
+  </teacher>
+  <comment>' || sqlite_version(), 0, 0) -- </comment>
+</evaluation>
+```
+
 Cependant, pour lire un fichier à partir d'une injection SQLite requiert plusieurs requêtes, et on ne peut injecter qu'à l'intérieur de la requête INSERT exécuté par le script python...
 
 Puis nous nous sommes souvenus qu'un des tags du challenge est `xml`. Un vrai parser XML doit être utilisé pour lire notre fichier, et donc il suffit de faire une XXE.

@@ -8,3 +8,13 @@
 Tags : `network` `dns` `easy`
 
 ## Solution :
+On utilise `dig` pour récupérer tous les records associés au nom de domaine :
+
+```
+$ dig flag.phack.fr @12.42.0.53 ANY
+...
+flag.phack.fr.          3599    IN      TXT     "PHACK{diG_i7_4nD_f0uNd_i7_In_y0uR_dNs}"
+...
+```
+
+`PHACK{diG_i7_4nD_f0uNd_i7_In_y0uR_dNs}`
